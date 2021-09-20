@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{listings}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+            
+        \Huge
+        \textbf{Informe de análisis y diseño}
+            
+        \vspace{0.5cm}
+        \LARGE
+        Parcial 2
+            
+        \vspace{1.5cm}
+            
+        \textbf{Angie Paola Jaramillo Ortega}
+            
+        \vfill
+            
+        \vspace{0.8cm}
+            
+        \Large
+        Despartamento de Ingeniería Electrónica y Telecomunicaciones\\
+        Universidad de Antioquia\\
+        Medellín\\
+        Septiembre de 2021
+            
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+\section{Sección introductoria}\label{intro}
+Se ha asignado el trbajo de crear una pantalla de leds para la representación de distintas banderas.El programa debe permitir la representación de una bandera aleatoria sin importar su tamaño y debe ser reconocible.
+
+\section{Análisis} \label{Análisis}
+Una imagen seleccionada por el usuario debe ser leida por el programa en Qt,se debe procesar la imagen por submuestreo o sobremuestreo para adaptarse a una matriz de LEDs y se debe generar un archivo txt con la porción de codigo que represente la imagen a mostrar en la pantalla, la información del archivo txt será pasada al codigo de arduino y al iniciar la simulación la bandera debe ser mostrada en la pantalla LED.
+
+\begin{description}
+   \item[Datos de entrada:] Nombre de un archivo imagen.jpg 
+   \item[Datos de salida en Qt:] Segmento de código a ser agregado en el controlador de la matriz de LEDs de Arduino 
+   \item[Datos de Salida en Arduino:] Representación de la imagen ingresada en la matriz de LEDs
+\end{description}
+
+\subsection{Alternativa de solución}
+
+para el procesamiento de imagenes dependerá de si es necesario realizar submuestreo o sobremuestreo.
+
+\begin{description}
+   \item[Submuestreo:] En caso de que se necesite reducir la cantidad de pixeles de la imagen ingresada se realizará promediando los valores RGB de un conjunto de pixeles para ubicarlo en un pixel correspondiente de la matriz de LEDs.
+   \item[Sobremuestreo:] 
+\end{description}
+
+
+\subsection{Algoritmo}
+%
+El siguiente algoritmo \ref{algoritmo}, es un diseño general de la solución planteada. 
+
+
+\begin{lstlisting}[label=algoritmo]
+{
+    Escribir "Ingrese nombre de archivo imagen"
+    Leer imagen
+    Crear objeto imagen
+    
+    ancho<-leer ancho de imagen
+    altura<-leer altura de imagen
+    
+    SI altura>10 OR ancho>10 entonces
+        submuestrear(imagen)
+    SINO altura<10 OR ancho<10 entonces
+        sobremuestrear(imagen)
+    SINO altura=10 AND ancho=10 entonces
+        arreglo[ancho][altura]<-leer y guardar colores de cada pixel 
+
+}
+
+\end{lstlisting}
+
+\section{Consideraciones} \label{Consideraciones}
+La solución del problema se realizará en una matriz de LEDs 10x10 y la cantidad de pixeles a promediar durante el submuestreo dependerá de la dimensión de la imagen original.
+
+\end{document}
