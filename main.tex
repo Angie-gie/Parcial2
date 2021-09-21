@@ -53,7 +53,7 @@ para el procesamiento de imagenes dependerá de si es necesario realizar submues
 
 \begin{description}
    \item[Submuestreo:] En caso de que se necesite reducir la cantidad de pixeles de la imagen ingresada se realizará promediando los valores RGB de un conjunto de pixeles para ubicarlo en un pixel correspondiente de la matriz de LEDs.
-   \item[Sobremuestreo:] 
+   \item[Sobremuestreo:] En caso de tener que aumentar el tamaño de la bandera se usará la técnica de interpolación bilinial, esta calcula los valores de una ubicación utilizando las cuatro posiciones mas cercanas para realizar un promedio ponderado usando como pesos la distancia a estos cuatro puntos
 \end{description}
 
 
@@ -76,13 +76,14 @@ El siguiente algoritmo \ref{algoritmo}, es un diseño general de la solución pl
     SINO altura<10 OR ancho<10 entonces
         sobremuestrear(imagen)
     SINO altura=10 AND ancho=10 entonces
-        arreglo[ancho][altura]<-leer y guardar colores de cada pixel 
+        array[ancho][altura]<-leer y guardar colores de cada pixel 
+    FIN SI
 
 }
 
 \end{lstlisting}
 
 \section{Consideraciones} \label{Consideraciones}
-La solución del problema se realizará en una matriz de LEDs 10x10 y la cantidad de pixeles a promediar durante el submuestreo dependerá de la dimensión de la imagen original.
+La solución del problema se realizará en una matriz de LEDs 10x10 y la cantidad de pixeles a promediar durante el submuestreo dependerá de la dimensión de la imagen original.Los promedios sacados para el submuestreo como para el sobremuestreo se realizarán para cada componete R,G y B.
 
 \end{document}
