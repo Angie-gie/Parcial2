@@ -36,15 +36,31 @@
 \tableofcontents
 \newpage
 \section{Sección introductoria}\label{intro}
-Se ha asignado el trbajo de crear una pantalla de leds para la representación de distintas banderas.El programa debe permitir la representación de una bandera aleatoria sin importar su tamaño y debe ser reconocible.
+Se ha asignado el trabajo de crear una pantalla de LED's para la representación de distintas banderas. El programa debe ser capaz de mostrar la bandera escogida por el usuario sin importar su tamaño y debe ser reconocible.
 
 \section{Análisis} \label{Análisis}
-Una imagen seleccionada por el usuario debe ser leida por el programa en Qt,se debe procesar la imagen por submuestreo o sobremuestreo para adaptarse a una matriz de LEDs y se debe generar un archivo txt con la porción de codigo que represente la imagen a mostrar en la pantalla, la información del archivo txt será pasada al codigo de arduino y al iniciar la simulación la bandera debe ser mostrada en la pantalla LED.
+Una imagen seleccionada por el usuario debe ser leida por el programa en Qt, se debe procesar la imagen por submuestreo o sobremuestreo para adaptarse a una matriz de LEDs y se debe generar un archivo txt con la porción de código que represente la imagen a mostrar en la pantalla, la información del archivo txt será pasada al codigo de arduino y al iniciar la simulación la bandera debe ser mostrada en la pantalla LED.
 
 \begin{description}
    \item[Datos de entrada:] Nombre de un archivo imagen.jpg 
-   \item[Datos de salida en Qt:] Segmento de código a ser agregado en el controlador de la matriz de LEDs de Arduino 
-   \item[Datos de Salida en Arduino:] Representación de la imagen ingresada en la matriz de LEDs
+   \item[Datos de salida en Qt:] Segmento de código a ser agregado en el controlador de la matriz de LEDs de arduino 
+   \item[Datos de salida en arduino:] Representación de la imagen ingresada en la matriz de LEDs
+\end{description}
+
+Para implementar esta solución se hará uso de la clase QImage para abrir la imagen y leer el su contenido. Se usará los métodos de la clase QImage, width() y heigh() para obtener el ancho y la altura de la imagen respectivamente. El método pixelColor() de la clase QImage servirá para obtener los valores RGB de cada pixel.
+Para el código en arduino se utilizará principalmente la función setPixelColor() para especificar el color de cada pixel.
+
+\subsection{Tareas}
+
+\begin{description}
+   \item Lectura de imagen
+   \item Obtener medidas de la imagen
+   \item Definir si es necesario submuestreo o sobremuestreo
+   \item Hacer proceso de transformación
+   \item Crear archivo txt
+   \item En arduino leer la nueva imagen
+   \item estblecer valore RGB de cada pixel
+   
 \end{description}
 
 \subsection{Alternativa de solución}
@@ -76,7 +92,13 @@ El siguiente algoritmo \ref{algoritmo}, es un diseño general de la solución pl
     SINO altura<10 OR ancho<10 entonces
         sobremuestrear(imagen)
     SINO altura=10 AND ancho=10 entonces
-        array[ancho][altura]<-leer y guardar colores de cada pixel 
+        entero array[10][10][3]
+        Desde fila=0 hasta 10 con paso 1 hacer
+            Desde columna=0 hasta 10 hacer
+                ColorR<-leer color rojo de pixel (fila,columna)
+                ColorG<-leer color verde de pixel (fila,columna)
+                ColorB<-leer color azul de pixel (fila,columna)
+                array[fila][columna]<-[colorR,ColorG,ColorB]
     FIN SI
 
 }
