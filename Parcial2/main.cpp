@@ -12,7 +12,17 @@ int main()
     int a=img.width();
     int b=img.height();
 
-    cout<<a<<'x'<<b<<endl;
+    if(a>10 || b>10){
+        submuestrar(img);
+    }else if (a>10 || b>10){
+        sobremuestrar(img);
+    }else{
+        for(unsigned short f=0;f<10;f++){
+            for(unsigned short c=0;c<10;c++){
+
+            }
+        }
+    }
 
 //    unsigned int pixelX=122;
 //    unsigned int pixelY=88;
