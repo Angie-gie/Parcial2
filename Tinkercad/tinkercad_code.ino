@@ -8,11 +8,17 @@ Adafruit_NeoPixel leds = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800)
 
 void setup()
 {
-  byte a=207;
   leds.begin();
-  for(unsigned int i=0;i<NUMPIXELS;i+=2){
-    leds.setPixelColor(i,a,97,62);
-  	leds.setPixelColor(i+1,20,0,255);
+  byte mat[3][10][10]
+  ={
+    
+  };
+int i=0;
+  for(unsigned int f=0;f<10;f++){
+    for(unsigned int c=0;c<10;c++){
+      leds.setPixelColor(i,mat[0][c][f],mat[1][c][f],mat[2][c][f]);
+      i++;
+    }
   }
   leds.show();
 }

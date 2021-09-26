@@ -7,7 +7,7 @@ void submuestreo(QImage img,int mat[3][10][10],int W, int H);
 
 int main()
 {
-    string filename="../Parcial 2/Parcial2/imagenes/brasil.jpg";
+    string filename="../Parcial 2/Parcial2/imagenes/mexico.jpg";
     QImage img(filename.c_str());
 
     int a=img.width();
@@ -22,14 +22,17 @@ int main()
     }else if (a>10 || b>10){
         //sobremuestrar(img);
     }else{
-        for(unsigned short x=0;x<10;x++){
-            for(unsigned short y=0;y<10;y++){
-                int colorR=img.pixelColor(x,y).red();
-                int colorG=img.pixelColor(x,y).green();
-                int colorB=img.pixelColor(x,y).blue();
-                mat[0][x][y]=colorR;
-                mat[1][x][y]=colorG;
-                mat[2][x][y]=colorB;
+        for(unsigned short f=0;f<10;f++){
+            for(unsigned short c=0;c<10;c++){
+                int colorR=img.pixelColor(c,f).red();
+                int colorG=img.pixelColor(c,f).green();
+                int colorB=img.pixelColor(c,f).blue();
+                if(colorR==255){
+                    colorR=254;
+                }
+                mat[0][c][f]=colorR;
+                mat[1][c][f]=colorG;
+                mat[2][c][f]=colorB;
             }
         }
     }
@@ -54,36 +57,35 @@ int main()
 }
 
 void submuestreo(QImage img, int mat[3][10][10],int W, int H){
-    int posx=0,posy=0, newposx=0,newposy=0;
+    int posx=0,posy=0, newc=0,newf=0;
     int sobrantex=W%10;
-    int sobrantey=H%10;
-    string info;
 
-    if(sobrantex==0 && sobrantey==0){
-        for(int cont=1;cont<=100;cont++){
-            int sumR=0,sumG=0,sumB=0;
-            for(unsigned short y=0;y<H/10;y++){
-                for(unsigned short x=0;x<W/10;x++){
-                    sumR+=img.pixelColor(x+posx,y+posy).red();
-                    sumG+=img.pixelColor(x+posx,y+posy).green();
-                    sumB+=img.pixelColor(x+posx,y+posy).blue();
-                }
+    for(int cont=1;cont<=100;cont++){
+        int sumR=0,sumG=0,sumB=0;
+        for(unsigned short f=0;f<H/10;f++){
+            for(unsigned short c=0;c<W/10;c++){
+                sumR+=img.pixelColor(c+posx,f+posy).red();
+                sumG+=img.pixelColor(c+posx,f+posy).green();
+                sumB+=img.pixelColor(c+posx,f+posy).blue();
             }
-            mat[0][newposx][newposy]=sumR/((H/10)*(W/10));
-            mat[1][newposx][newposy]=sumG/((H/10)*(W/10));
-            mat[2][newposx][newposy]=sumB/((H/10)*(W/10));
-            if(posx!=W-(W/10)){
-                posx+=W/10;
-                newposx++;
-            }else{
-                posx=0;
-                newposx=0;
-            }
-            if(cont%10==0 && cont!=0){
-                 posy+=H/10;
-                 newposy++;
-            }
+        }if(sumR/((H/10)*(W/10))!=255){
+            mat[0][newc][newf]=sumR/((H/10)*(W/10));
+        }else{
+            mat[0][newc][newf]=(sumR/((H/10)*(W/10)))-1;
+        }
+        mat[1][newc][newf]=sumG/((H/10)*(W/10));
+        mat[2][newc][newf]=sumB/((H/10)*(W/10));
+        if(posx!=W-((W/10)+sobrantex)){
+            posx+=W/10;
+            newc++;
+        }else{
+            posx=0;
+            newc=0;
+        }
+        if(cont%10==0 && cont!=0){
+             posy+=H/10;
+             newf++;
+        }
+   }
 
-       }
-    }
 }
