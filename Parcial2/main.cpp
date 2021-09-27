@@ -96,12 +96,12 @@ void sobremuestrar(QImage img,int mat[3][10][10],float W, float H){
     float radioy=(H-1)/10;
     int aR,aG,aB,bR,bG,bB,cR,cG,cB,dR,dG,dB;
 
-    for(unsigned short f=0;f<10;f++){
-        for(unsigned short c=0;c<10;c++){
+    for(int f=0;f<10;f++){
+        for(int c=0;c<10;c++){
             int x1=radiox*c, y1=radioy*f,
                 x2=(radiox*c)+1,y2=(radioy*f)+1;
-            float pesox=(radiox*c)-x1;
-            float pesoy=(radioy*f)-y1;
+            float pesox=(radiox*c)-float(x1);
+            float pesoy=(radioy*f)-float(y1);
 
             aR=img.pixelColor(y1,x1).red();
             aG=img.pixelColor(y1,x1).green();
@@ -119,9 +119,9 @@ void sobremuestrar(QImage img,int mat[3][10][10],float W, float H){
             dG=img.pixelColor(y2,x2).green();
             dB=img.pixelColor(y2,x2).blue();
 
-            mat[0][c][f]=int(valorColor(aR,bR,cR,dR,pesox,pesoy));
-            mat[1][c][f]=int(valorColor(aG,bG,cG,dG,pesox,pesoy));
-            mat[2][c][f]=int(valorColor(aB,bB,cB,dB,pesox,pesoy));
+            mat[0][f][c]=int(valorColor(aR,bR,cR,dR,pesox,pesoy));
+            mat[1][f][c]=int(valorColor(aG,bG,cG,dG,pesox,pesoy));
+            mat[2][f][c]=int(valorColor(aB,bB,cB,dB,pesox,pesoy));
         }
     }
 }
