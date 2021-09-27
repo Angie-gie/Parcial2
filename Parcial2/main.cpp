@@ -4,10 +4,12 @@
 
 using namespace std;
 void submuestreo(QImage img,int mat[3][10][10],int W, int H);
+void sobremuestrar(QImage img,int mat[3][10][10],float W, float H);
+float valorColor(int a,int b,int c, int d,float pesox, float pesoy);
 
 int main()
 {
-    string filename="../Parcial 2/Parcial2/imagenes/mexico.jpg";
+    string filename="../Parcial 2/Parcial2/imagenes/guyana2.jpg";
     QImage img(filename.c_str());
 
     int a=img.width();
@@ -19,8 +21,8 @@ int main()
 
     if(a>10 || b>10){
         submuestreo(img,mat,a,b);
-    }else if (a>10 || b>10){
-        //sobremuestrar(img);
+    }else if (a<10 || b<10){
+        sobremuestrar(img,mat,float(a),float(b));
     }else{
         for(unsigned short f=0;f<10;f++){
             for(unsigned short c=0;c<10;c++){
@@ -88,4 +90,43 @@ void submuestreo(QImage img, int mat[3][10][10],int W, int H){
         }
    }
 
+}
+void sobremuestrar(QImage img,int mat[3][10][10],float W, float H){
+    float radiox=(W-1)/10;
+    float radioy=(H-1)/10;
+    int aR,aG,aB,bR,bG,bB,cR,cG,cB,dR,dG,dB;
+
+    for(unsigned short f=0;f<10;f++){
+        for(unsigned short c=0;c<10;c++){
+            int x1=radiox*c, y1=radioy*f,
+                x2=(radiox*c)+1,y2=(radioy*f)+1;
+            float pesox=(radiox*c)-x1;
+            float pesoy=(radioy*f)-y1;
+
+            aR=img.pixelColor(y1,x1).red();
+            aG=img.pixelColor(y1,x1).green();
+            aB=img.pixelColor(y1,x1).blue();
+
+            bR=img.pixelColor(y1,x2).red();
+            bG=img.pixelColor(y1,x2).green();
+            bB=img.pixelColor(y1,x2).blue();
+
+            cR=img.pixelColor(y2,x1).red();
+            cG=img.pixelColor(y2,x1).green();
+            cB=img.pixelColor(y2,x1).blue();
+
+            dR=img.pixelColor(y2,x2).red();
+            dG=img.pixelColor(y2,x2).green();
+            dB=img.pixelColor(y2,x2).blue();
+
+            mat[0][c][f]=int(valorColor(aR,bR,cR,dR,pesox,pesoy));
+            mat[1][c][f]=int(valorColor(aG,bG,cG,dG,pesox,pesoy));
+            mat[2][c][f]=int(valorColor(aB,bB,cB,dB,pesox,pesoy));
+        }
+    }
+}
+float valorColor(int a,int b,int c, int d,float pesox, float pesoy){
+    float val=a * (1 - pesox) * (1 - pesoy)+ b *  pesox * (1 - pesoy) +
+            c * pesoy * (1 -  pesox) + d *  pesox * pesoy;
+    return val;
 }
