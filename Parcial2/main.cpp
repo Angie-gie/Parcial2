@@ -9,7 +9,7 @@ float valorColor(int a,int b,int c, int d,float pesox, float pesoy);
 
 int main()
 {
-    string filename="../Parcial 2/Parcial2/imagenes/guyana2.jpg";
+    string filename="../Parcial 2/Parcial2/imagenes/brasil2.jpg";
     QImage img(filename.c_str());
 
     int a=img.width();
@@ -59,8 +59,19 @@ int main()
 }
 
 void submuestreo(QImage img, int mat[3][10][10],int W, int H){
-    int posx=0,posy=0, newc=0,newf=0;
     int sobrantex=W%10;
+    int sobrantey=H%10;
+    int posx=sobrantex/2,posy=sobrantey/2, newc=0,newf=0,k;
+
+    if(posy>0)posy-=1;
+    if(posx>0){
+        posx-=1;
+        float x=sobrantex/2.0;
+        int r=(x-sobrantex/2)*10;
+        if(r%2!=0)
+            k=r/2;
+        else k=1;
+    }else k=0;
 
     for(int cont=1;cont<=100;cont++){
         int sumR=0,sumG=0,sumB=0;
@@ -77,11 +88,15 @@ void submuestreo(QImage img, int mat[3][10][10],int W, int H){
         }
         mat[1][newc][newf]=sumG/((H/10)*(W/10));
         mat[2][newc][newf]=sumB/((H/10)*(W/10));
-        if(posx!=W-((W/10)+sobrantex)){
-            posx+=W/10;
+        if(posx!=W-((W/10)+((sobrantex/2)+k))){
+            posx+=(W/10);
             newc++;
         }else{
-            posx=0;
+            if(cont%10==0 && cont!=0 && sobrantex/2>0){
+                posx=(sobrantex/2)-1;
+            }else{
+                posx=sobrantex/2;
+            }
             newc=0;
         }
         if(cont%10==0 && cont!=0){
@@ -119,9 +134,13 @@ void sobremuestrar(QImage img,int mat[3][10][10],float W, float H){
             dG=img.pixelColor(y2,x2).green();
             dB=img.pixelColor(y2,x2).blue();
 
-            mat[0][f][c]=int(valorColor(aR,bR,cR,dR,pesox,pesoy));
-            mat[1][f][c]=int(valorColor(aG,bG,cG,dG,pesox,pesoy));
-            mat[2][f][c]=int(valorColor(aB,bB,cB,dB,pesox,pesoy));
+            int ColorR=int(valorColor(aR,bR,cR,dR,pesox,pesoy));
+            int ColorG=int(valorColor(aG,bG,cG,dG,pesox,pesoy));
+            int ColorB=int(valorColor(aB,bB,cB,dB,pesox,pesoy));
+
+            mat[0][f][c]=ColorR;
+            mat[1][f][c]=ColorG;
+            mat[2][f][c]=ColorB;
         }
     }
 }
